@@ -1,0 +1,26 @@
+---
+- name: Install and run NMAP scan
+  hosts: servers
+  become: true
+
+  vars:
+    targets: "{{ lookup('file', 'targets.txt').splitlines() }}"
+
+  tasks:
+    - name: Install nmap
+      package:
+        name: nmap
+        state: present
+
+    - name: Scan port 80 on targets
+      command: "nmap -p 80 {{ item }}"
+      loop: "{{ targets }}"
+      register: nmap_results
+      changed_when: false
+
+    - name: Show scan results
+      debug:
+        msg: |
+          Target: {{ item.item }}
+          {{ item.stdout }}
+      loop: "{{ nmap_results.results }}"

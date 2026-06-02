@@ -4,7 +4,7 @@
 
 Запуск плейбука
 ```
-ansible-playbook -i inventory laybook.yml 
+ansible-playbook -i inventory playbook.yml 
 ```
 
 Пример вывода результата
